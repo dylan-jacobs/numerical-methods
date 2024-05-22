@@ -1,0 +1,27 @@
+% Runge-Kutta Method
+% A, b, c compose the butcher table
+% function f
+% u0 = initial condition
+% N points
+
+function [u] = runge_kutta(A, b, c, f, u0, interval, N)
+
+    s = numel(b); % length of butcher table
+    tvals = linspace(interval(1), interval(2), N);
+    dt = (tvals(2)-tvals(1));
+    kvals = zeros(s, 1);
+
+    u = u0;
+
+
+    for n = 2:N
+
+        for i = 1:s
+           
+            kvals(i) = f(u + dt*(sum( A(i, :)' .* kvals)), tvals(n-1) + dt*c(i));
+        end
+        u = u + dt*sum(b .* kvals);
+
+    end
+
+end
